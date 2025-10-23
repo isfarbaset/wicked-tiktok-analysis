@@ -1,0 +1,33 @@
+# Spotify credentials
+spotify_config.py
+
+# Data files (if sensitive)
+data/tiktok/wicked_tiktok_performance.csv
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Outputs (optional - comment out if you want to keep these)
+# outputs/figures/*.png
+# outputs/figures/*.html

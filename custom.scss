@@ -1,0 +1,292 @@
+/*-- scss:defaults --*/
+
+// Wicked Color Palette
+$emerald: #00A86B;
+$dark-green: #006B3F;
+$pink: #E91E8C;
+$gold: #FFD700;
+$light-green: #90EE90;
+$black: #1C1C1C;
+$white: #FFFFFF;
+
+// Bootstrap Variable Overrides
+$primary: $emerald;
+$secondary: $dark-green;
+$success: $emerald;
+$info: $light-green;
+$warning: $gold;
+$danger: $pink;
+$light: $light-green;
+$dark: $black;
+
+// Typography
+$font-family-sans-serif: "Helvetica Neue", Arial, sans-serif;
+$headings-font-family: "Arial Black", "Arial Bold", sans-serif;
+$headings-font-weight: 800;
+$headings-color: $emerald;
+
+// Body
+$body-bg: $white;
+$body-color: $black;
+
+// Links
+$link-color: $emerald;
+$link-hover-color: $pink;
+$link-decoration: none;
+$link-hover-decoration: underline;
+
+// Borders
+$border-radius: 10px;
+$border-radius-lg: 15px;
+$border-radius-sm: 5px;
+
+// Shadows
+$box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+$box-shadow-lg: 0 10px 30px rgba(0, 107, 63, 0.3);
+
+/*-- scss:rules --*/
+
+// Custom gradient backgrounds
+.bg-wicked-gradient {
+  background: linear-gradient(135deg, $emerald 0%, $dark-green 100%);
+}
+
+.bg-wicked-gradient-pink {
+  background: linear-gradient(135deg, $pink 0%, darken($pink, 15%) 100%);
+}
+
+// Wicked-themed buttons
+.btn-wicked {
+  background: linear-gradient(135deg, $emerald 0%, $dark-green 100%);
+  color: $white;
+  font-weight: 600;
+  border: none;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: $box-shadow-lg;
+  }
+}
+
+.btn-wicked-pink {
+  background: linear-gradient(135deg, $pink 0%, darken($pink, 15%) 100%);
+  color: $white;
+  font-weight: 600;
+  border: none;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(233, 30, 140, 0.3);
+  }
+}
+
+// Enhanced cards
+.card {
+  border-radius: $border-radius;
+  box-shadow: $box-shadow;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: $box-shadow-lg;
+  }
+}
+
+.card-header {
+  background: linear-gradient(135deg, $emerald 0%, $dark-green 100%);
+  color: $white;
+  font-weight: 700;
+  border-radius: $border-radius $border-radius 0 0;
+}
+
+// Blockquotes with Wicked style
+blockquote {
+  border-left: 4px solid $emerald;
+  background-color: rgba($emerald, 0.05);
+  padding: 15px 20px;
+  margin: 20px 0;
+  border-radius: $border-radius-sm;
+  
+  p {
+    margin-bottom: 0;
+  }
+}
+
+// Enhanced code blocks
+pre.sourceCode {
+  background-color: rgba($emerald, 0.05);
+  border-left: 4px solid $emerald;
+  border-radius: $border-radius-sm;
+  padding: 15px;
+}
+
+code {
+  background-color: rgba($emerald, 0.1);
+  color: $dark-green;
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+
+// Navigation styling
+.navbar {
+  background: linear-gradient(135deg, $emerald 0%, $dark-green 100%);
+  box-shadow: $box-shadow;
+}
+
+.navbar-brand {
+  font-weight: 900;
+  color: $white !important;
+  font-size: 1.5rem;
+}
+
+.nav-link {
+  color: rgba($white, 0.9) !important;
+  font-weight: 600;
+  transition: color 0.2s ease;
+  
+  &:hover {
+    color: $gold !important;
+  }
+}
+
+// Table enhancements
+.table {
+  thead {
+    background: linear-gradient(135deg, $emerald 0%, $dark-green 100%);
+    color: $white;
+    
+    th {
+      font-weight: 700;
+      border: none;
+    }
+  }
+  
+  tbody tr {
+    transition: background-color 0.2s ease;
+    
+    &:hover {
+      background-color: rgba($emerald, 0.05);
+    }
+  }
+}
+
+// Alert styling
+.alert {
+  border-radius: $border-radius;
+  border-width: 0 0 0 4px;
+  
+  &.alert-success {
+    background-color: rgba($emerald, 0.1);
+    border-color: $emerald;
+    color: $dark-green;
+  }
+  
+  &.alert-info {
+    background-color: rgba($light-green, 0.2);
+    border-color: $emerald;
+    color: $dark-green;
+  }
+  
+  &.alert-warning {
+    background-color: rgba($gold, 0.2);
+    border-color: $gold;
+    color: darken($gold, 40%);
+  }
+  
+  &.alert-danger {
+    background-color: rgba($pink, 0.1);
+    border-color: $pink;
+    color: darken($pink, 20%);
+  }
+}
+
+// Badge styling
+.badge {
+  font-weight: 600;
+  padding: 0.4em 0.8em;
+  border-radius: $border-radius-sm;
+  
+  &.badge-wicked {
+    background-color: $emerald;
+    color: $white;
+  }
+  
+  &.badge-pink {
+    background-color: $pink;
+    color: $white;
+  }
+  
+  &.badge-gold {
+    background-color: $gold;
+    color: $black;
+  }
+}
+
+// Progress bars
+.progress {
+  border-radius: $border-radius-sm;
+  background-color: rgba($emerald, 0.1);
+  
+  .progress-bar {
+    background: linear-gradient(135deg, $emerald 0%, $dark-green 100%);
+  }
+}
+
+// Pagination
+.pagination {
+  .page-link {
+    color: $emerald;
+    
+    &:hover {
+      color: $pink;
+      background-color: rgba($emerald, 0.05);
+    }
+  }
+  
+  .page-item.active .page-link {
+    background-color: $emerald;
+    border-color: $emerald;
+  }
+}
+
+// Custom scrollbar
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba($emerald, 0.05);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, $emerald 0%, $dark-green 100%);
+  border-radius: 6px;
+  
+  &:hover {
+    background: $dark-green;
+  }
+}
+
+// Selection highlighting
+::selection {
+  background-color: rgba($emerald, 0.3);
+  color: $dark-green;
+}
+
+::-moz-selection {
+  background-color: rgba($emerald, 0.3);
+  color: $dark-green;
+}
+
+// Focus styles
+:focus {
+  outline: 2px solid $emerald;
+  outline-offset: 2px;
+}
+
+// Smooth transitions
+* {
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}

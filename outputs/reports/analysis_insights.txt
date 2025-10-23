@@ -1,0 +1,23 @@
+======================================================================
+WICKED TIKTOK ANALYSIS - KEY INSIGHTS
+======================================================================
+
+Total songs: 17
+Avg popularity: 46.7
+Popularity range: 0-58
+
+TOP 5 MOST POPULAR:
+1. For Good - 58
+2. No Good Deed - 57
+3. Defying Gravity - 56
+4. As Long As You're Mine - 55
+5. What Is This Feeling? - 53
+
+KEY FINDINGS:
+- Most popular: For Good
+- Longest song: Dancing Through Life
+
+DATA NOTES:
+- Used REAL Spotify API data
+- Audio features unavailable (API restriction)
+======================================================================

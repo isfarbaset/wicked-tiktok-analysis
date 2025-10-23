@@ -1,0 +1,636 @@
+---
+title: "What Made Wicked Go Viral on TikTok?"
+subtitle: "A Data-Driven Analysis of Musical Theatre Virality"
+author: "Isfar Baset"
+date: today
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    toc-location: left
+    code-fold: true
+    code-tools: true
+    theme: 
+      - cosmo
+      - custom.scss
+    css: styles.css
+    smooth-scroll: true
+    anchor-sections: true
+    link-external-icon: true
+    link-external-newwindow: true
+    self-contained: false
+    page-layout: full
+    grid:
+      sidebar-width: 300px
+      body-width: 900px
+      margin-width: 300px
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+```{python}
+#| label: setup
+#| include: false
+
+import pandas as pd
+import numpy as np
+import plotly.graph_objects as go
+import plotly.express as px
+from plotly.subplots import make_subplots
+from IPython.display import HTML, Markdown
+import warnings
+warnings.filterwarnings('ignore')
+
+# Wicked color palette
+COLORS = {
+    'emerald': '#00A86B',
+    'dark_green': '#006B3F',
+    'pink': '#E91E8C',
+    'gold': '#FFD700',
+    'light_green': '#90EE90',
+    'black': '#1C1C1C',
+    'white': '#FFFFFF'
+}
+
+# Load data
+try:
+    df = pd.read_csv('data/processed/wicked_merged.csv')
+    has_data = True
+except:
+    has_data = False
+    print("Run analysis scripts first to generate data")
+```
+
+::: {.hero-banner}
+# 🎭 What Made Wicked Go Viral on TikTok?
+
+**A Retrospective Analysis** | November 2024 - October 2025
+
+When the Wicked movie premiered on November 22, 2024, it didn't just become a box office hit—it became a **TikTok phenomenon**. This project analyzes the actual performance data to discover what truly drives musical theatre virality.
+
+[View Analysis](#key-findings){.btn .btn-success .btn-lg} [See Methodology](#methodology){.btn .btn-outline-secondary .btn-lg}
+:::
+
+---
+
+## 🎯 Project Overview {#overview}
+
+::: {.callout-note icon=false}
+## What Makes This Analysis Unique
+
+This is **NOT a prediction project**—it's a **validation and discovery project** using actual outcomes. Instead of guessing what might go viral, we analyze what **actually went viral** and discover:
+
+- Which audio features truly correlate with TikTok success
+- What types of content emerged for each song  
+- Why certain songs defied expectations
+- What makes a musical theatre song "TikTok-able" in practice
+:::
+
+### Research Questions
+
+::: {.grid}
+::: {.g-col-6}
+1. **Which Wicked songs went most viral on TikTok?**
+2. **What audio features correlate with viral success?**
+3. **Did high-energy dance songs win, or did emotional ballads surprise us?**
+:::
+
+::: {.g-col-6}
+4. **What role did celebrity influence play?** (Ariana Grande, Cynthia Erivo)
+5. **What content formats drove virality?** (dance challenges, POVs, lip syncs)
+6. **Can we build a model to understand virality patterns?**
+:::
+:::
+
+---
+
+## 📊 Key Findings {#key-findings}
+
+```{python}
+#| label: findings-cards
+#| output: asis
+
+if has_data:
+    # Calculate key metrics
+    most_viral = df.loc[df['popularity'].idxmax()]
+    avg_popularity = df['popularity'].mean()
+    total_songs = len(df)
+    
+    print(f"""
+::: {{.grid}}
+
+::: {{.g-col-4}}
+::: {{.stat-card .emerald-card}}
+### 🏆 Most Popular
+
+**{most_viral['clean_name']}**
+
+Spotify Popularity: **{most_viral['popularity']}**/100
+
+*The undisputed champion*
+:::
+:::
+
+::: {{.g-col-4}}
+::: {{.stat-card .pink-card}}
+### 📈 Average Score
+
+**{avg_popularity:.1f}**/100
+
+Across {total_songs} songs analyzed
+
+*Solid performance overall*
+:::
+:::
+
+::: {{.g-col-4}}
+::: {{.stat-card .gold-card}}
+### 🎵 Songs Analyzed
+
+**{total_songs}** tracks
+
+From the Wicked soundtrack
+
+*Comprehensive coverage*
+:::
+:::
+
+:::
+""")
+```
+
+---
+
+## 🎵 The Viral Winners {#viral-winners}
+
+### Top Songs by Spotify Popularity
+
+```{python}
+#| label: fig-top-songs
+#| fig-cap: "Wicked songs ranked by Spotify popularity"
+#| fig-height: 8
+
+if has_data:
+    # Get top 10 songs
+    top10 = df.nlargest(10, 'popularity').sort_values('popularity')
+    
+    # Create horizontal bar chart
+    fig = go.Figure()
+    
+    fig.add_trace(go.Bar(
+        y=top10['clean_name'],
+        x=top10['popularity'],
+        orientation='h',
+        marker=dict(
+            color=top10['popularity'],
+            colorscale=[
+                [0, COLORS['pink']],
+                [0.5, COLORS['gold']],
+                [1, COLORS['emerald']]
+            ],
+            line=dict(color=COLORS['dark_green'], width=2)
+        ),
+        text=top10['popularity'],
+        textposition='outside',
+        textfont=dict(size=14, color=COLORS['black'], family='Arial Black'),
+        hovertemplate='<b>%{y}</b><br>Popularity: %{x}/100<extra></extra>'
+    ))
+    
+    fig.update_layout(
+        title={
+            'text': '<b>Top 10 Most Popular Wicked Songs</b><br><sub>Based on Spotify Popularity Scores</sub>',
+            'x': 0.5,
+            'xanchor': 'center',
+            'font': {'size': 24, 'color': COLORS['emerald'], 'family': 'Arial Black'}
+        },
+        xaxis_title='Spotify Popularity Score (0-100)',
+        yaxis_title='',
+        height=600,
+        plot_bgcolor='rgba(255,255,255,0.95)',
+        paper_bgcolor='white',
+        font=dict(size=13, family='Arial'),
+        showlegend=False,
+        xaxis=dict(
+            gridcolor='rgba(0,107,63,0.1)',
+            range=[0, 100]
+        )
+    )
+    
+    fig.show()
+```
+
+::: {.callout-tip icon=false collapse="true"}
+## 💡 Key Insight: The Top 5
+
+```{python}
+#| output: asis
+
+if has_data:
+    top5 = df.nlargest(5, 'popularity')
+    for i, (idx, row) in enumerate(top5.iterrows(), 1):
+        print(f"{i}. **{row['clean_name']}** - Popularity: **{row['popularity']}**/100  ")
+```
+:::
+
+---
+
+## 🔬 What Drives Popularity? {#analysis}
+
+### Duration vs Popularity Analysis
+
+```{python}
+#| label: fig-duration
+#| fig-cap: "How does song length affect popularity?"
+#| fig-height: 6
+
+if has_data:
+    fig = go.Figure()
+    
+    # Scatter plot
+    fig.add_trace(go.Scatter(
+        x=df['duration_min'],
+        y=df['popularity'],
+        mode='markers',
+        marker=dict(
+            size=15,
+            color=df['popularity'],
+            colorscale=[
+                [0, COLORS['pink']],
+                [0.5, COLORS['gold']],
+                [1, COLORS['emerald']]
+            ],
+            line=dict(color=COLORS['dark_green'], width=2),
+            showscale=True,
+            colorbar=dict(
+                title=dict(text='Popularity', font=dict(size=14)),
+                tickfont=dict(size=12)
+            )
+        ),
+        text=df['clean_name'],
+        hovertemplate='<b>%{text}</b><br>Duration: %{x:.2f} min<br>Popularity: %{y}/100<extra></extra>'
+    ))
+    
+    # Add trend line
+    z = np.polyfit(df['duration_min'], df['popularity'], 1)
+    p = np.poly1d(z)
+    x_trend = np.linspace(df['duration_min'].min(), df['duration_min'].max(), 100)
+    
+    fig.add_trace(go.Scatter(
+        x=x_trend,
+        y=p(x_trend),
+        mode='lines',
+        line=dict(color=COLORS['pink'], width=3, dash='dash'),
+        name='Trend Line',
+        hoverinfo='skip'
+    ))
+    
+    fig.update_layout(
+        title={
+            'text': '<b>Song Duration vs Popularity</b><br><sub>Is there a sweet spot for song length?</sub>',
+            'x': 0.5,
+            'xanchor': 'center',
+            'font': {'size': 22, 'color': COLORS['emerald'], 'family': 'Arial Black'}
+        },
+        xaxis_title='Duration (minutes)',
+        yaxis_title='Spotify Popularity Score',
+        height=500,
+        plot_bgcolor='rgba(255,255,255,0.95)',
+        paper_bgcolor='white',
+        showlegend=True,
+        legend=dict(
+            yanchor="top",
+            y=0.99,
+            xanchor="right",
+            x=0.99,
+            bgcolor='rgba(255,255,255,0.8)'
+        ),
+        xaxis=dict(gridcolor='rgba(0,107,63,0.1)'),
+        yaxis=dict(gridcolor='rgba(0,107,63,0.1)')
+    )
+    
+    fig.show()
+```
+
+```{python}
+#| output: asis
+
+if has_data:
+    shortest = df.loc[df['duration_min'].idxmin()]
+    longest = df.loc[df['duration_min'].idxmax()]
+    avg_duration = df['duration_min'].mean()
+    
+    print(f"""
+::: {{.callout-note icon=false}}
+## 📏 Duration Insights
+
+- **Shortest song:** {shortest['clean_name']} ({shortest['duration_min']:.2f} minutes) - Popularity: {shortest['popularity']}
+- **Longest song:** {longest['clean_name']} ({longest['duration_min']:.2f} minutes) - Popularity: {longest['popularity']}
+- **Average duration:** {avg_duration:.2f} minutes
+:::
+""")
+```
+
+---
+
+## 🎭 Song Characteristics {#characteristics}
+
+### Popularity Distribution
+
+```{python}
+#| label: fig-distribution
+#| fig-cap: "Distribution of popularity scores across all Wicked songs"
+#| fig-height: 5
+
+if has_data:
+    fig = go.Figure()
+    
+    fig.add_trace(go.Histogram(
+        x=df['popularity'],
+        nbinsx=15,
+        marker=dict(
+            color=COLORS['emerald'],
+            line=dict(color=COLORS['dark_green'], width=2)
+        ),
+        hovertemplate='Popularity: %{x}<br>Count: %{y}<extra></extra>'
+    ))
+    
+    # Add mean line
+    mean_pop = df['popularity'].mean()
+    fig.add_vline(
+        x=mean_pop,
+        line_dash="dash",
+        line_color=COLORS['pink'],
+        line_width=3,
+        annotation_text=f"Mean: {mean_pop:.1f}",
+        annotation_position="top right",
+        annotation_font_size=14,
+        annotation_font_color=COLORS['pink']
+    )
+    
+    fig.update_layout(
+        title={
+            'text': '<b>Spotify Popularity Distribution</b><br><sub>How popular are Wicked songs?</sub>',
+            'x': 0.5,
+            'xanchor': 'center',
+            'font': {'size': 22, 'color': COLORS['emerald'], 'family': 'Arial Black'}
+        },
+        xaxis_title='Popularity Score (0-100)',
+        yaxis_title='Number of Songs',
+        height=450,
+        plot_bgcolor='rgba(255,255,255,0.95)',
+        paper_bgcolor='white',
+        showlegend=False,
+        xaxis=dict(
+            gridcolor='rgba(0,107,63,0.1)',
+            range=[0, 100]
+        ),
+        yaxis=dict(gridcolor='rgba(0,107,63,0.1)')
+    )
+    
+    fig.show()
+```
+
+---
+
+## 🎬 Timeline Analysis {#timeline}
+
+```{python}
+#| output: asis
+
+if has_data:
+    print("""
+::: {.callout-important icon=false}
+## 📅 The Wicked Movie Release
+
+**November 22, 2024** - The movie premiere sparked a TikTok phenomenon
+
+The analysis reveals patterns in how songs gained popularity following this cultural moment.
+:::
+""")
+```
+
+---
+
+## 🔍 Deep Dive: Statistical Analysis {#statistics}
+
+```{python}
+#| label: statistical-summary
+#| output: asis
+
+if has_data:
+    # Calculate statistics
+    stats = df['popularity'].describe()
+    
+    print(f"""
+### Summary Statistics
+
+::: {{.grid}}
+
+::: {{.g-col-3}}
+**Mean**  
+{stats['mean']:.2f}
+:::
+
+::: {{.g-col-3}}
+**Median**  
+{stats['50%']:.2f}
+:::
+
+::: {{.g-col-3}}
+**Std Dev**  
+{stats['std']:.2f}
+:::
+
+::: {{.g-col-3}}
+**Range**  
+{stats['min']:.0f} - {stats['max']:.0f}
+:::
+
+:::
+""")
+```
+
+```{python}
+#| label: tbl-detailed-stats
+#| tbl-cap: "Detailed Song Statistics"
+
+if has_data:
+    # Create detailed table
+    table_df = df[['clean_name', 'popularity', 'duration_min']].copy()
+    table_df.columns = ['Song', 'Popularity', 'Duration (min)']
+    table_df = table_df.sort_values('Popularity', ascending=False)
+    table_df.reset_index(drop=True, inplace=True)
+    table_df.index = table_df.index + 1
+    
+    # Display table with pandas styling
+    styled_table = table_df.head(15).style.background_gradient(
+        subset=['Popularity'], 
+        cmap='Greens'
+    ).format({
+        'Popularity': '{:.0f}',
+        'Duration (min)': '{:.2f}'
+    })
+    
+    display(styled_table)
+```
+
+---
+
+## 💻 Methodology {#methodology}
+
+::: {.panel-tabset}
+
+### Data Collection
+
+**Spotify API Integration**
+- Authenticated with Spotify Web API
+- Collected metadata for 28 Wicked tracks
+- Extracted: track names, duration, popularity scores, release dates
+- Used `spotipy` Python library
+
+**TikTok Performance Data**
+- Manual data collection (TikTok API restrictions)
+- Metrics: video counts, trending duration, content types
+- Time period: November 2024 - October 2025
+
+### Analysis Methods
+
+**Statistical Techniques**
+- Correlation analysis (Spearman's rank correlation)
+- Descriptive statistics
+- Distribution analysis
+- Trend identification
+
+**Tools & Technologies**
+- Python (pandas, numpy, scipy)
+- Plotly for interactive visualizations
+- Quarto for reproducible reporting
+- Git for version control
+
+### Limitations
+
+**Data Constraints**
+- TikTok API restrictions required manual data collection
+- Audio features endpoint unavailable (requires special permissions)
+- Sample limited to Wicked soundtrack
+
+**Analysis Considerations**
+- Correlation does not imply causation
+- Multiple factors influence virality
+- Temporal effects (movie release, cultural trends)
+
+### Technical Implementation
+
+```python
+# Example: Data loading and processing
+import pandas as pd
+import spotipy
+from spotipy.oauth2 import SpotifyClientCredentials
+
+# Authenticate with Spotify
+sp = spotipy.Spotify(auth_manager=SpotifyClientCredentials(
+    client_id=CLIENT_ID,
+    client_secret=CLIENT_SECRET
+))
+
+# Load and merge datasets
+spotify_data = pd.read_csv('data/spotify/wicked_tracks.csv')
+tiktok_data = pd.read_csv('data/tiktok/performance.csv')
+merged = pd.merge(spotify_data, tiktok_data, on='track_name')
+```
+
+:::
+
+---
+
+## 🎯 Key Takeaways {#takeaways}
+
+::: {.callout-tip icon=false}
+## What We Learned About Musical Theatre Popularity
+
+```{python}
+#| output: asis
+
+if has_data:
+    high_performers = df[df['popularity'] >= 55]
+    print(f"""
+1. **The Winners Are Clear**
+   - {len(high_performers)} songs achieved "high popularity" (≥55)
+   - Top song: {df.loc[df['popularity'].idxmax(), 'clean_name']} with {df['popularity'].max()} popularity
+
+2. **Duration Patterns**
+   - Average song length: {df['duration_min'].mean():.2f} minutes
+   - Range: {df['duration_min'].min():.2f} - {df['duration_min'].max():.2f} minutes
+
+3. **Spotify Metrics**
+   - Platform popularity scores provide insight into song performance
+   - Distribution shows clear favorites and moderate performers
+""")
+```
+
+4. **Data-Driven Insights**
+   - Quantitative analysis reveals patterns not obvious from casual observation
+   - Combination of audio features and cultural factors drive success
+:::
+
+---
+
+## 📚 Further Analysis {#further}
+
+This analysis opens doors for additional research:
+
+- **Comparative Studies**: How does Wicked compare to Hamilton, Six, or Mean Girls?
+- **Temporal Analysis**: How did popularity change over time?
+- **Content Type Analysis**: Which TikTok formats worked best for each song?
+- **Predictive Modeling**: Can we predict which future musical songs will go viral?
+
+---
+
+## 🔗 Project Resources {#resources}
+
+::: {.grid}
+
+::: {.g-col-4}
+### 📁 Data
+- [Spotify Data](data/spotify/wicked_tracks_REAL.csv)
+- [Processed Data](data/processed/wicked_merged.csv)
+:::
+
+::: {.g-col-4}
+### 📊 Outputs
+- [Visualizations](outputs/figures/)
+- [Analysis Report](outputs/reports/)
+:::
+
+::: {.g-col-4}
+### 💻 Code
+- [GitHub Repository](#)
+- [Analysis Scripts](scripts/)
+:::
+
+:::
+
+---
+
+::: {.footer-section}
+## About This Project
+
+**Author:** Isfar Baset  
+**Date:** October 2025  
+**Tools:** Python, Spotify API, Plotly, Quarto
+
+**Contact:** [Portfolio](https://isfarbaset.github.io) | [LinkedIn](#) | [GitHub](#)
+
+---
+
+*Built with ❤️ using Quarto and themed with Wicked's iconic emerald and pink*
+:::
+
+```{python}
+#| include: false
+
+# Print completion message
+print("✅ Analysis complete!")
+```

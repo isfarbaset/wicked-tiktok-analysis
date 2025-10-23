@@ -1,0 +1,45 @@
+
+TIKTOK DATA COLLECTION INSTRUCTIONS:
+
+For each Wicked song, search on TikTok and record:
+
+1. tiktok_video_count: Number of videos using this sound
+   - Search the song name on TikTok
+   - Look at the sound page
+   - Record the video count
+
+2. tiktok_view_estimate_millions: Rough view estimate
+   - Based on top videos' view counts
+   - Estimate total views across all videos
+
+3. peak_trend_date: When did it peak?
+   - Check Google Trends
+   - Look at TikTok video dates
+   - When were most videos posted?
+
+4. weeks_trending: How long was it popular?
+   - Count weeks with significant activity
+
+5. primary_trend_type: What format dominated?
+   - Dance Challenge
+   - Lip Sync / Vocal Showcase
+   - POV / Storytelling
+   - Duets
+   - Comedy / Parody
+   - GRWM (Get Ready With Me)
+   - Transition
+   - Other
+
+6. viral_moment: Why did it go viral?
+   - Movie release hype
+   - Dance challenge created
+   - Celebrity used it
+   - Meme format emerged
+   - Emotional resonance
+
+7. celebrity_boost: Which celebrities used it?
+   - List major influencers who posted with this sound
+
+8. notes: Any additional context
+
+Save completed data as: ../data/tiktok/wicked_tiktok_performance.csv
