@@ -1,4 +1,4 @@
-# What Made Wicked Go Viral on TikTok?
+# What Made Wicked Go Viral 
 ## A Retrospective Data Analysis Study
 
 A complete data science project analyzing what audio features and cultural factors drove Wicked's viral success on TikTok following the November 2024 movie release.
